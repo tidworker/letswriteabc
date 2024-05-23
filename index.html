@@ -3,58 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>圖片展示</title>
+    <title>主頁</title>
     <style>
         body {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
+            flex-direction: column;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #1D5D78;
+            height: 100vh;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin: 10px 0;
+        .iframe-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
         }
-        .clickable {
-            position: relative;
-        }
-        .clickable img:hover {
-            content: url('index03_2.png');
+        iframe {
+            width: 390px;
+            height: 790px;
+            border: none;
         }
     </style>
-    <script>
-        function handleClick(event) {
-            event.preventDefault();
-            var img = document.getElementById('index03');
-            img.src = 'index03_2.png';
-            var audio = new Audio('start.mp3');
-            audio.play();
-            setTimeout(function() {
-                window.location.href = 'lettersgalaxy.html';
-            }, 4000); // 延遲1秒
-        }
-    </script>
 </head>
 <body>
-    <br>
-    <br>
-    <br>
-    <img src="index01.png" alt="圖片1">
-    <br>
-    <br>
-    <img src="index02.png" alt="圖片2">
-    <div class="clickable">
-        <br>
-        <br>
-        <a href="lettersgalaxy.html" onclick="handleClick(event)">
-            <img src="index03.png" alt="圖片3" id="index03">
-        </a>
+    <div class="iframe-container">
+        <iframe src="main.htm" title="內嵌頁框"></iframe>
     </div>
-    <br>
-    <img src="logo.png" alt="Logo">
 </body>
 </html>
