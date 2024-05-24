@@ -26,16 +26,16 @@
             position: relative;
         }
         .clickable img:hover {
-            content: url('index03_2.png');
+            content: url('story2.png');
         }
     </style>
     <script>
         function handleClick(event) {
             event.preventDefault();
-            var img = document.getElementById('index03');
-            img.src = 'index03_2.png';
+            var img = document.getElementById('story');
+            img.src = 'story2.png';
             setTimeout(function() {
-                window.location.href = 'mainmenu.htm';
+                window.location.href = 'menu.htm';
             }, 0); // 延遲4秒
         }
     </script>
@@ -44,14 +44,15 @@
     <br>
     <br>
     <br>
-    <img src="index01.png" alt="圖片1">
+    <img src="mainmenu.png" alt="圖片1">
     <br>
-    <img src="index02.png" alt="圖片2">
     <div class="clickable">
         <br>
         <a href="menu.htm" onclick="handleClick(event)">
-            <img src="index03.png" alt="圖片3" id="index03">
+            <img src="story.png" alt="圖片3" id="story">
         </a>
     </div>
+    <br>
+    <img src="free.png" alt="圖片1">
 </body>
 </html>
