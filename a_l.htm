@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Let's Write</title>
+    <title>讓我們寫字</title>
     <style>
         body, html { 
             margin: 0; 
             padding: 0; 
-            overflow: hidden; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100%; 
-            flex-direction: column;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            height: 100%; /* 保持整個頁面滿高 */
             background-color: #1D5D78;
         }
         #container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%; /* 確保容器滿寬 */
+            margin-top: 0; /* 內容頂部對齊 */
         }
         #grid {
             display: grid;
-            grid-template-columns: repeat(100, 4px);
-            grid-template-rows: repeat(100, 4px);
+            grid-template-columns: repeat(100, 2px); /* 更新為2px */
+            grid-template-rows: repeat(100, 2px); /* 更新為2px */
         }
         .cell {
-            width: 4px;
-            height: 4px;
+            width: 2px; /* 更新為2px */
+            height: 2px; /* 更新為2px */
             background-color: #1D5D78;
             box-sizing: border-box;
         }
@@ -79,6 +79,9 @@
 </head>
 <body>
     <div id="container">
+        <br>
+        <br>
+        <br>
         <img src="abc03.png">
         <div id="grid"></div>
         <div id="progressbar"><div id="progress"></div></div>
@@ -86,9 +89,9 @@
         <br>
 
         <div id="buttons">
-            <img src="back.png" alt="Back" onclick="history.back()">
-            <img src="re.png" alt="Refresh" onclick="location.reload()">
-            <img src="next.png" alt="Next" onclick="window.location.href='b_l.htm'">
+            <img src="back.png" alt="返回" onclick="history.back()">
+            <img src="re.png" alt="刷新" onclick="location.reload()">
+            <img src="next.png" alt="下一頁" onclick="window.location.href='b_l.htm'">
         </div>
         <div id="popup">
             <div id="rating"></div>
@@ -237,46 +240,15 @@
             }
         }
 
-        grid.addEventListener('touchstart', function(e) {
-            if (!timerStarted) {
-                startTime = new Date().getTime();
-                timerStarted = true;
-                startTimer();
-            }
-            handleTouch(e);
-        }, { passive: false });
-
-        grid.addEventListener('touchmove', handleTouch, { passive: false });
-
-        grid.addEventListener('mousedown', function(e) {
-            if (!timerStarted) {
-                startTime = new Date().getTime();
-                timerStarted = true;
-                startTimer();
-            }
-            handleMouse(e);
-        });
-
-        grid.addEventListener('mousemove', function(e) {
-            if (e.buttons === 1) {
-                handleMouse(e);
-            }
-        });
-
-        function handleTouch(e) {
-            e.preventDefault();
-            paint(e.touches[0].clientX, e.touches[0].clientY);
-        }
-
         function handleMouse(e) {
             paint(e.clientX, e.clientY);
         }
 
         function paint(clientX, clientY) {
             const rect = grid.getBoundingClientRect();
-            const x = Math.floor((clientX - rect.left) / 4);
-            const y = Math.floor((clientY - rect.top) / 4);
-            fillCircle(x, y, 10);
+            const x = Math.floor((clientX - rect.left) / 2);
+            const y = Math.floor((clientY - rect.top) / 2);
+            fillCircle(x, y, 1); // 將填充半徑調整為1，適應2px的網格
         }
 
         function fillCircle(cx, cy, radius) {
@@ -286,13 +258,14 @@
                         const nx = cx + j;
                         const ny = cy + i;
                         if (nx >= 0 && nx < 100 && ny >= 0 && ny < 100) {
-                            if (cells[ny][nx].classList.contains('letter')) {
-                                if (!cells[ny][nx].style.backgroundColor) {
-                                    cells[ny][nx].style.backgroundColor = '#1D5D78';
+                            const cell = cells[ny][nx];
+                            if (cell.classList.contains('letter')) {
+                                if (!cell.style.backgroundColor) {
+                                    cell.style.backgroundColor = '#0E2336';
                                     coloredLetters++;
                                 }
-                            } else if (!cells[ny][nx].style.backgroundColor) {
-                                cells[ny][nx].style.backgroundColor = '#1D5D78';
+                            } else if (!cell.style.backgroundColor) {
+                                cell.style.backgroundColor = '#1D5D78';
                                 incorrectLetters++;
                             }
                         }
