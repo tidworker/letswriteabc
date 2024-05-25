@@ -24,14 +24,38 @@
         }
         iframe {
             width: 390px;
-            height: 790px;
+            height: 590px;
             border: none;
         }
+
+        .clickable {
+            position: relative;
+        }
+        .clickable img:hover, .clickable img:active {
+            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
+
+        }
+        #buttons img {
+            cursor: pointer;
+            margin: 10px;
+        }
+
+
     </style>
 </head>
 <body>
     <div class="iframe-container">
         <iframe src="mainmenu.htm" title="內嵌頁框"></iframe>
     </div>
+
+    <br>
+
+        <div id="buttons">
+            <img src="back.png" alt="Back" onclick="history.back()">
+            <img src="re.png" alt="Refresh" onclick="location.reload()">
+            <img src="next.png" alt="Next" onclick="window.location.href='b_l.htm'">
+        </div>
+
+
 </body>
 </html>
