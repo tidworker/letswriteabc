@@ -25,18 +25,18 @@
         .clickable {
             position: relative;
         }
-        .clickable img:hover {
-            content: url('index03_2.png');
+        .clickable img:hover, .clickable img:active {
+            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
         }
     </style>
     <script>
-        function handleClick(event) {
-            event.preventDefault();
+        function handleTouch(event) {
+            event.preventDefault(); // 防止觸發其他事件如 click
             var img = document.getElementById('index03');
             img.src = 'index03_2.png';
             setTimeout(function() {
                 window.location.href = 'mainmenu.htm';
-            }, 0); // 延遲4秒
+            }, 4000); // 設定4秒延遲來確保用戶看到反饋
         }
     </script>
 </head>
@@ -49,8 +49,8 @@
     <img src="index02.png" alt="圖片2">
     <div class="clickable">
         <br>
-        <a href="menu.htm" onclick="handleClick(event)">
-            <img src="index03.png" alt="圖片3" id="index03">
+        <a href="menu.htm" ontouchstart="handleTouch(event)">
+            <img src="index03.png" alt="圖片3" id="index3">
         </a>
     </div>
 </body>
