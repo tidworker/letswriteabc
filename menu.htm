@@ -20,28 +20,18 @@
         img {
             max-width: 100%;
             height: auto;
-            margin: 10px 0;
+            margin: 3px 0;
         }
         .clickable {
             position: relative;
         }
-        .clickable img:hover {
-            content: url('index03_2.png');
+        .clickable img:hover, .clickable img:active {
+            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
         }
     </style>
     <script>
-        function handleClick(event) {
-            event.preventDefault();
-            var img = document.getElementById('index03');
-            img.src = 'index03_2.png';
-            var audio = new Audio('start.mp3');
-            audio.play();
-            setTimeout(function() {
-                window.location.href = 'menu.htm';
-            }, 4000); // 延遲秒
-        }
-        function goToAL() {
-            window.location.href = 'a_l.htm'; // 導向到 a_l.htm
+        function handleTouch(event) {
+            event.preventDefault(); // 防止觸發其他事件如 click
         }
     </script>
 </head>
@@ -50,8 +40,13 @@
     <br>
     <br>
     <img src="abc01.png" alt="圖片1">
-    <img src="abc02.png" alt="圖片2">
-    <img src="index04.png" alt="圖片4">
-    <img src="go.png" alt="圖片3" onclick="goToAL()">
+    <br>
+    <img src="abc02.png" alt="圖片1">
+    <div class="clickable">
+    <br>
+        <a href="a_l.htm" ontouchstart="handleTouch(event)">
+            <img src="go.png" alt="圖片3" id="index3">
+        </a>
+    </div>
 </body>
 </html>

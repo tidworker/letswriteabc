@@ -25,18 +25,13 @@
         .clickable {
             position: relative;
         }
-        .clickable img:hover {
-            content: url('story2.png');
+        .clickable img:hover, .clickable img:active {
+            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
         }
     </style>
     <script>
-        function handleClick(event) {
-            event.preventDefault();
-            var img = document.getElementById('story');
-            img.src = 'story2.png';
-            setTimeout(function() {
-                window.location.href = 'menu.htm';
-            }, 0); // 延遲4秒
+        function handleTouch(event) {
+            event.preventDefault(); // 防止觸發其他事件如 click
         }
     </script>
 </head>
@@ -46,13 +41,12 @@
     <br>
     <img src="mainmenu.png" alt="圖片1">
     <br>
+    <img src="spaceman01.png" alt="圖片1">
     <div class="clickable">
-        <br>
-        <a href="menu.htm" onclick="handleClick(event)">
-            <img src="story.png" alt="圖片3" id="story">
+        <a href="menu.htm" ontouchstart="handleTouch(event)">
+            <img src="story.png" alt="圖片3" id="index3">
         </a>
     </div>
-    <br>
-    <img src="free.png" alt="圖片1">
+    <img src="free.png" alt="圖片2">
 </body>
 </html>

@@ -3,55 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>圖片展示</title>
+    <title>主頁</title>
     <style>
         body {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
+            flex-direction: column;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #1D5D78;
+            height: 100vh;
+
+        }
+        .iframe-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        iframe {
             width: 390px;
             height: 790px;
-            overflow: hidden;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin: 3px 0;
-        }
-        .clickable {
-            position: relative;
-        }
-        .clickable img:hover, .clickable img:active {
-            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
+            border: none;
         }
     </style>
-    <script>
-        function handleTouch(event) {
-            event.preventDefault(); // 防止觸發其他事件如 click
-            var img = document.getElementById('index03');
-            img.src = 'index03_2.png';
-            setTimeout(function() {
-                window.location.href = 'mainmenu.htm';
-            }, 4000); // 設定4秒延遲來確保用戶看到反饋
-        }
-    </script>
 </head>
 <body>
-    <br>
-    <br>
-    <br>
-    <img src="index01.png" alt="圖片1">
-    <br>
-    <img src="index02.png" alt="圖片2">
-    <div class="clickable">
-        <br>
-        <a href="menu.htm" ontouchstart="handleTouch(event)">
-            <img src="index03.png" alt="圖片3" id="index3">
-        </a>
+    <div class="iframe-container">
+        <iframe src="mainmenu.htm" title="內嵌頁框"></iframe>
     </div>
 </body>
 </html>

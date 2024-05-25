@@ -26,12 +26,34 @@
             width: 390px;
             height: 790px;
             border: none;
+
+        }
+        .clickable {
+            position: relative;
+        }
+        .clickable img:hover, .clickable img:active {
+            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
+
         }
     </style>
 </head>
 <body>
-    <div class="iframe-container">
-        <iframe src="main.htm" title="內嵌頁框"></iframe>
+    <br>
+    <br>
+    <br>
+    <img src="index01.png" alt="圖片1">
+    <br>
+    <br>
+    <img src="index02.png" alt="圖片2">
+    <div class="clickable">
+    <br>
+        <br>
+        <a href="main.htm" ontouchstart="handleTouch(event)">
+            <img src="index03.png" alt="圖片3" id="index3">
+        </a>
     </div>
+    <br>
+    <br>
+    <img src="logo.png" alt="圖片1">
 </body>
 </html>
