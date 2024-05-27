@@ -310,8 +310,8 @@
         }
 
         function finalScore() {
-            const blackPercentage = (coloredLetters / totalLetters) * 120;
-            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) * 50;
+            const blackPercentage = (coloredLetters / totalLetters) * 100;
+            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) * 0;
             const scorePercentage = blackPercentage - whitePercentage;
             displayRating(Math.round(scorePercentage)); // 顯示整數分數
         }
