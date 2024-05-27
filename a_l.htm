@@ -310,8 +310,8 @@
         }
 
         function finalScore() {
-            const blackPercentage = (coloredLetters / totalLetters) * 100;
-            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) * 150;
+            const blackPercentage = (coloredLetters / totalLetters) * 120;
+            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) * 50;
             const scorePercentage = blackPercentage - whitePercentage;
             displayRating(Math.round(scorePercentage)); // 顯示整數分數
         }
@@ -331,7 +331,7 @@
             } else if (score <= 90) {
                 rating = `你是我見過，最拉風的男人 (${score}分)`;
             } else {
-                rating = `娘子呀，跟牛魔王出來看上帝。 (${score}分)`;
+                rating = `太棒了，繼續下一個挑戰吧。 (${score}分)`;
             }
             ratingElement.textContent = rating;
             showPopup();
