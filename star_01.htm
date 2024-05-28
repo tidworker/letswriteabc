@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Write</title>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center;  
+            height: 100%; 
+            background-color: #1D5D78;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(80, 3px);
+            grid-template-rows: repeat(80, 3px);
+        }
+        .cell {
+            width: 3px;
+            height: 3px;
+            background-color: #1D5D78;
+            box-sizing: border-box;
+        }
+        .letter {
+            background-color: #d3d3d3;
+        }
+        #progressbar {
+            width: 52%;
+            height: 20px;
+            background-color: #E4EBE1;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        #progress {
+            height: 100%;
+            width: 0%;
+            background-color: #CE0000;
+            border-radius: 5px;
+        }
+        #buttons img {
+            cursor: pointer;
+            margin: 10px;
+        }
+        #popup {
+            width: 300px;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 10px;
+        }
+        #popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 12px;
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #scoreDisplay {
+            color: #FFFFFF;
+            font-size: 18px;
+            margin-top: 10-point;
+        }
+
+#scoreAndDelete {
+    display: flex;             /* 啟用Flexbox */
+    align-items: center;       /* 垂直居中對齊子元素 */
+    justify-content: space-between; /* 元素之間保留一些空間 */
+    width: 100%;               /* 容器寬度設為100% */
+    padding: 10px;             /* 添加一些內邊距 */
+    box-sizing: border-box;    /* 邊界和內邊距不增加寬度 */
+}
+
+#scoreDisplay {
+    color: #FFFFFF;
+    font-size: 18px;
+    flex-grow: 1;             /* 允許分數顯示部分擴展填滿剩餘空間 */
+}
+
+img {
+    cursor: pointer;         /* 鼠標懸停時顯示指針 */
+    margin-left: 0px;       /* 和分數顯示保持一定間距 */
+}
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <br>
+        <img src="index01.png">
+<div id="scoreAndDelete"> 
+　　<img src="back2.png" alt="Back" onclick="window.location.href='z_s.htm'">
+    <div id="grid"></div>
+    <img src="next2.png" alt="Next" onclick="window.location.href='b_s.htm'">
+　　</div>
+        <div id="progressbar"><div id="progress"></div></div>
+        <div id="scoreAndDelete">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <img src="star.png" alt="Star">
+    <div id="scoreDisplay"></div>
+　　</div>
+        <img src="alphabet03.png" alt="Refresh" onclick="location.reload()">
+　　<div id="popup">
+    <div id="rating"></div>
+    <button onclick="closePopup()">再試一次</button>
+    <!-- 新增的NEXT按鈕，初始時不顯示 -->
+    <button id="nextButton" style="display: none;" onclick="window.location='star_02.htm';">下個字母</button>
+　　</div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const popup = document.getElementById('popup');
+        const ratingElement = document.getElementById('rating');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const cells = [];
+        const patternA = [
+            // 這裡填入你的矩陣代碼...
+
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000111100000000000000000000000000000000000000',
+                '00000000000000000000000000000000011111111111111000000000000000000000000000000000',
+                '00000000000000000000000000000011111111111111111111000000000000000000000000000000',
+                '00000000000000000000000000001111111111111111111111110000000000000000000000000000',
+                '00000000000000000000000000011111111111111111111111111100000000000000000000000000',
+                '00000000000000000000000001111111111111111111111111111110000000000000000000000000',
+                '00000000000000000000000011111111111111111111111111111111000000000000000000000000',
+                '00000000000000000000000111111111111111111111111111111111100000000000000000000000',
+                '00000000000000000000000111111111111111111111111111111111110000000000000000000000',
+                '00000000000000000000001111111111111110000001111111111111111000000000000000000000',
+                '00000000000000000000011111111111000000000000000011111111111100000000000000000000',
+                '00000000000000000000011111111100000000000000000000111111111100000000000000000000',
+                '00000000000000000000011111111100000000000000000000011111111100000000000000000000',
+                '00000000000000000000111111111000000000000000000000001111111100000000000000000000',
+                '00000000000000000000111111111000000000000000000000000111111100000000000000000000',
+                '00000000000000000000111111111000000000000000000000000011111000000000000000000000',
+                '00000000000000000000111111111000000000000000000000000001100000000000000000000000',
+                '00000000000000000000111111111000000000000000000000000000000000000000000000000000',
+                '00000000000000000000111111111000000000000000000000000000000000000000000000000000',
+                '00000000000000000000111111111000000000000000000000000000000000000000000000000000',
+                '00000000000000000000111111111100000000000000000000000000000000000000000000000000',
+                '00000000000000000000011111111100000000000000000000000000000000000000000000000000',
+                '00000000000000000000011111111110000000000000000000000000000000000000000000000000',
+                '00000000000000000000001111111111100000000000000000000000000000000000000000000000',
+                '00000000000000000000001111111111110000000000000000000000000000000000000000000000',
+                '00000000000000000000000111111111111100000000000000000000000000000000000000000000',
+                '00000000000000000000000011111111111110000000000000000000000000000000000000000000',
+                '00000000000000000000000011111111111111100000000000000000000000000000000000000000',
+                '00000000000000000000000001111111111111111000000000000000000000000000000000000000',
+                '00000000000000000000000000011111111111111110000000000000000000000000000000000000',
+                '00000000000000000000000000001111111111111111100000000000000000000000000000000000',
+                '00000000000000000000000000000111111111111111111000000000000000000000000000000000',
+                '00000000000000000000000000000001111111111111111110000000000000000000000000000000',
+                '00000000000000000000000000000000111111111111111111100000000000000000000000000000',
+                '00000000000000000000000000000000000111111111111111111000000000000000000000000000',
+                '00000000000000000000000000000000000001111111111111111100000000000000000000000000',
+                '00000000000000000000000000000000000000011111111111111111000000000000000000000000',
+                '00000000000000000000000000000000000000000111111111111111100000000000000000000000',
+                '00000000000000000000000000000000000000000001111111111111110000000000000000000000',
+                '00000000000000000000000000000000000000000000011111111111110000000000000000000000',
+                '00000000000000000000000000000000000000000000000111111111111000000000000000000000',
+                '00000000000000000000000000000000000000000000000011111111111100000000000000000000',
+                '00000000000000000000000000000000000000000000000000111111111100000000000000000000',
+                '00000000000000000000011100000000000000000000000000011111111110000000000000000000',
+                '00000000000000000000111111000000000000000000000000011111111110000000000000000000',
+                '00000000000000000001111111100000000000000000000000001111111111000000000000000000',
+                '00000000000000000001111111100000000000000000000000000111111111000000000000000000',
+                '00000000000000000001111111100000000000000000000000000111111111000000000000000000',
+                '00000000000000000001111111100000000000000000000000000111111111000000000000000000',
+                '00000000000000000001111111100000000000000000000000000011111111000000000000000000',
+                '00000000000000000001111111110000000000000000000000000011111111000000000000000000',
+                '00000000000000000001111111110000000000000000000000000011111111000000000000000000',
+                '00000000000000000001111111110000000000000000000000000011111111000000000000000000',
+                '00000000000000000000111111111000000000000000000000000111111111000000000000000000',
+                '00000000000000000000111111111000000000000000000000000111111111000000000000000000',
+                '00000000000000000000111111111110000000000000000000001111111111000000000000000000',
+                '00000000000000000000011111111111100000000000000000011111111110000000000000000000',
+                '00000000000000000000001111111111111100000000000000111111111110000000000000000000',
+                '00000000000000000000001111111111111111111111111111111111111100000000000000000000',
+                '00000000000000000000000111111111111111111111111111111111111100000000000000000000',
+                '00000000000000000000000011111111111111111111111111111111111000000000000000000000',
+                '00000000000000000000000000111111111111111111111111111111110000000000000000000000',
+                '00000000000000000000000000011111111111111111111111111111100000000000000000000000',
+                '00000000000000000000000000000111111111111111111111111110000000000000000000000000',
+                '00000000000000000000000000000011111111111111111111111100000000000000000000000000',
+                '00000000000000000000000000000000011111111111111111110000000000000000000000000000',
+                '00000000000000000000000000000000000111111111111110000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000',
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000'
+
+        ];
+        let totalLetters = 0;
+        let coloredLetters = 0;
+        let incorrectLetters = 0;
+        let startTime;
+        let timerStarted = false;
+        let interval;
+
+        function initializeGrid() {
+            grid.innerHTML = '';
+            totalLetters = 0;
+            coloredLetters = 0;
+            incorrectLetters = 0;
+            timerStarted = false;
+            document.getElementById('progress').style.width = '0%';
+            ratingElement.textContent = '';
+            updateScoreDisplay();
+
+            for (let i = 0; i < 80; i++) {
+                cells[i] = [];
+                for (let j = 0; j < 80; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    if (patternA[i] && patternA[i][j] === '1') {
+                        cell.classList.add('letter');
+                        totalLetters++;
+                    }
+                    cells[i][j] = cell;
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        function updateScoreDisplay() {
+            let scores = localStorage.getItem('scores');
+            scoreDisplay.textContent = scores ? `` : "";
+        }
+
+        function saveScore(score) {
+            localStorage.setItem('scores', score);
+            updateScoreDisplay();
+        }
+
+        function clearScores() {
+            localStorage.removeItem('scores');
+            updateScoreDisplay();
+        }
+
+        grid.addEventListener('touchstart', function(e) {
+            if (!timerStarted) {
+                startTime = new Date().getTime();
+                timerStarted = true;
+                startTimer();
+            }
+            handleTouch(e);
+        }, { passive: false });
+
+        grid.addEventListener('touchmove', handleTouch, { passive: false });
+
+        grid.addEventListener('mousedown', function(e) {
+            if (!timerStarted) {
+                startTime = new Date().getTime();
+                timerStarted = true;
+                startTimer();
+            }
+            handleMouse(e);
+        });
+
+        grid.addEventListener('mousemove', function(e) {
+            if (e.buttons === 1) {
+                handleMouse(e);
+            }
+        });
+
+        function handleTouch(e) {
+            e.preventDefault();
+            paint(e.touches[0].clientX, e.touches[0].clientY);
+        }
+
+        function handleMouse(e) {
+            paint(e.clientX, e.clientY);
+        }
+
+        function paint(clientX, clientY) {
+            const rect = grid.getBoundingClientRect();
+            const x = Math.floor((clientX - rect.left) / 3);
+            const y = Math.floor((clientY - rect.top) / 3);
+            fillCircle(x, y, 8);
+        }
+
+        function fillCircle(cx, cy, radius) {
+            for (let i = -radius; i <= radius; i++) {
+                for (let j = -radius; j <= radius; j++) {
+                    if (i * i + j * j <= radius * radius) {
+                        const nx = cx + j;
+                        const ny = cy + i;
+                        if (nx >= 0 && nx < 80 && ny >= 0 && ny < 80) {
+                            if (cells[ny][nx].classList.contains('letter')) {
+                                if (!cells[ny][nx].classList.contains('colored')) {
+                                    cells[ny][nx].classList.add('colored');
+                                    coloredLetters++;
+                                    cells[ny][nx].style.backgroundColor = '#0E2336';
+                                }
+                            } else if (!cells[ny][nx].classList.contains('incorrect')) {
+                                cells[ny][nx].classList.add('incorrect');
+                                incorrectLetters++;
+                                cells[ny][nx].style.backgroundColor = '#1D5D78';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function startTimer() {
+            const duration = 3000; // 3秒倒計時
+            interval = setInterval(() => {
+                const elapsed = new Date().getTime() - startTime;
+                const progress = (elapsed / duration) * 100;
+                document.getElementById('progress').style.width = progress + '%';
+
+                if (elapsed >= duration) {
+                    clearInterval(interval);
+                    finalScore();
+                }
+            }, 100);
+        }
+
+function finalScore() {
+    const blackPercentage = (coloredLetters / totalLetters) * 105;
+    const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) * 30;
+    const scorePercentage = blackPercentage - whitePercentage;
+    let roundedScore = Math.round(scorePercentage); // 計算最終得分並四捨五入
+    roundedScore = Math.min(roundedScore, 100); // 限制分數最高為100
+    displayRating(roundedScore); // 顯示分數評級
+    saveScore(roundedScore); // 保存分數到本地存儲
+}
+
+function displayRating(score) {
+    let rating = '';
+    const nextButton = document.getElementById('nextButton');
+    if (score <= 60) {
+         rating = `${score}%已掃描。還要繼續努力喔`;
+    } else if (score <= 94) {
+        rating = `${score}%已掃描。就差一點了，加油`;
+    } else {
+        rating = `${score}%已掃描。太棒了，繼續下一個任務吧`;
+        // 當分數達到95及以上時，顯示NEXT按鈕
+        if (score >= 95) {
+            nextButton.style.display = 'inline-block';
+        }
+    }
+    ratingElement.textContent = rating;
+    showPopup();
+}
+
+
+
+        function showPopup() {
+            popup.style.display = 'block';
+        }
+
+        function closePopup() {
+            popup.style.display = 'none';
+        }
+
+        // 初始化遊戲
+        initializeGrid();
+    </script>
+</body>
+</html>
