@@ -311,7 +311,7 @@
 
         function finalScore() {
             const blackPercentage = (coloredLetters / totalLetters) * 105;
-            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) *20;
+            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) *30;
             const scorePercentage = blackPercentage - whitePercentage;
             displayRating(Math.round(scorePercentage)); // 顯示整數分數
         }
