@@ -331,7 +331,7 @@
             } else if (score <= 90) {
                 rating = `你是我見過，最拉風的男人 (${score}分)`;
             } else {
-                rating = `太棒了，繼續下一個挑戰吧。 (${score}分)`;
+                rating = `太棒了，繼續下一個挑戰吧。 ${score}%已探索`;
             }
             ratingElement.textContent = rating;
             showPopup();
