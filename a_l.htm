@@ -73,17 +73,23 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        #scoreDisplay {
+            color: #FFFFFF;
+            font-size: 18px;
+            margin-top: 10-point;
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <br>
-        <br>
         <img src="index01.png">
         <div id="grid"></div>
         <div id="progressbar"><div id="progress"></div></div>
+        <div id="scoreDisplay"></div>
         <br>
         <img src="alphabet03.png" alt="Refresh" onclick="location.reload()">
+        <img src="delete.png" alt="Delete Records" onclick="clearScores()">
         <div id="popup">
             <div id="rating"></div>
             <button onclick="closePopup()">確定</button>
@@ -94,9 +100,10 @@
         const grid = document.getElementById('grid');
         const popup = document.getElementById('popup');
         const ratingElement = document.getElementById('rating');
+        const scoreDisplay = document.getElementById('scoreDisplay');
         const cells = [];
         const patternA = [
-            // 省略的01矩陣部分
+            // 這裡填入你的矩陣代碼...
 
                 '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
                 '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
@@ -215,6 +222,7 @@
             timerStarted = false;
             document.getElementById('progress').style.width = '0%';
             ratingElement.textContent = '';
+            updateScoreDisplay();
 
             for (let i = 0; i < 100; i++) {
                 cells[i] = [];
@@ -229,6 +237,21 @@
                     grid.appendChild(cell);
                 }
             }
+        }
+
+        function updateScoreDisplay() {
+            let scores = localStorage.getItem('scores');
+            scoreDisplay.textContent = scores ? `任務完成：${scores}%` : "任務完成 0%";
+        }
+
+        function saveScore(score) {
+            localStorage.setItem('scores', score);
+            updateScoreDisplay();
+        }
+
+        function clearScores() {
+            localStorage.removeItem('scores');
+            updateScoreDisplay();
         }
 
         grid.addEventListener('touchstart', function(e) {
@@ -281,13 +304,15 @@
                         const ny = cy + i;
                         if (nx >= 0 && nx < 100 && ny >= 0 && ny < 100) {
                             if (cells[ny][nx].classList.contains('letter')) {
-                                if (!cells[ny][nx].style.backgroundColor) {
-                                    cells[ny][nx].style.backgroundColor = '#0E2336';
+                                if (!cells[ny][nx].classList.contains('colored')) {
+                                    cells[ny][nx].classList.add('colored');
                                     coloredLetters++;
+                                    cells[ny][nx].style.backgroundColor = '#0E2336';
                                 }
-                            } else if (!cells[ny][nx].style.backgroundColor) {
-                                cells[ny][nx].style.backgroundColor = '#1D5D78';
+                            } else if (!cells[ny][nx].classList.contains('incorrect')) {
+                                cells[ny][nx].classList.add('incorrect');
                                 incorrectLetters++;
+                                cells[ny][nx].style.backgroundColor = '#1D5D78';
                             }
                         }
                     }
@@ -309,33 +334,30 @@
             }, 100);
         }
 
-        function finalScore() {
-            const blackPercentage = (coloredLetters / totalLetters) * 105;
-            const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) *30;
-            const scorePercentage = blackPercentage - whitePercentage;
-            displayRating(Math.round(scorePercentage)); // 顯示整數分數
-        }
+function finalScore() {
+    const blackPercentage = (coloredLetters / totalLetters) * 105;
+    const whitePercentage = (incorrectLetters / (100 * 100 - totalLetters)) * 30;
+    const scorePercentage = blackPercentage - whitePercentage;
+    let roundedScore = Math.round(scorePercentage); // 計算最終得分並四捨五入
+    roundedScore = Math.min(roundedScore, 100); // 限制分數最高為100
+    displayRating(roundedScore); // 顯示分數評級
+    saveScore(roundedScore); // 保存分數到本地存儲
+}
 
-        function displayRating(score) {
-            let rating = '';
-            if (score <= 40) {
-                rating = `我要寫一個慘字! (${score}分)`;
-            } else if (score <= 50) {
-                rating = `你，已經輸了! (${score}分)`;
-            } else if (score <= 60) {
-                rating = `笑死! (${score}分)`;
-            } else if (score <= 70) {
-                rating = `現在放棄，遊戲就結束了。 (${score}分)`;
-            } else if (score <= 80) {
-                rating = `意不意外?開不開心? (${score}分)`;
-            } else if (score <= 90) {
-                rating = `你是我見過，最拉風的男人 (${score}分)`;
-            } else {
-                rating = `${score}%已掃描。太棒了，繼續下一個任務吧`;
-            }
-            ratingElement.textContent = rating;
-            showPopup();
-        }
+function displayRating(score) {
+    let rating = '';
+    if (score <= 60) {
+        rating = `${score}%已掃描。還要繼續努力喔`;
+    } else if (score <= 95) {
+        rating = `${score}%已掃描。就差一點了，加油`;
+    } else {
+        rating = `${score}%已掃描。太棒了，繼續下一個任務吧`;
+    }
+    ratingElement.textContent = rating;
+    showPopup();
+}
+
+
 
         function showPopup() {
             popup.style.display = 'block';
