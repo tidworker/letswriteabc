@@ -3,47 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>圖片展示</title>
+    <title>Letter Planet</title>
     <style>
         body {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
+            flex-direction: column;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #1D5D78;
-            width: 390px;
-            height: 790px;
-            overflow: hidden;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin: 3px 0;
-        }
-        .clickable {
-            position: relative;
+            height: 100vh;
         }
         .clickable img:hover, .clickable img:active {
-            opacity: 0.5; /* 激活時改變透明度，提供視覺反饋 */
+            opacity: 0.5; /* 點擊時改變透明度，提供視覺反饋 */
+        }
+        #buttons img {
+            cursor: pointer;
+            margin: 12px;
         }
     </style>
-
 </head>
 <body>
+    <br><br><br>
+    <img src="mainmenu.png">
     <br>
-    <br>
-    <br>
-    <img src="mainmenu.png" alt="圖片1">
-    <br>
-    <img src="spaceman01.png" alt="圖片1">
-    <img src="story.png" alt="圖片2">
+    <img src="spaceman01.png">
+    <img src="story.png">
     <br>
     <div class="clickable">
-        <a href="plant01.htm" ontouchstart="handleTouch(event)">
-            <img src="free.png" alt="圖片3" id="index3">
+        <a href="planet01.htm" ontouchstart="handleTouch(event)">
+        <img src="free.png">
         </a>
     </div>
+
+    <br>
+
+    <div id="buttons">
+        <img src="back.png" onclick="history.back()">
+        <img src="re.png" onclick="location.reload()">
+        <img src="sound.png" onclick="playSound()">
+    </div>
+    <script>
+        function playSound() {
+            var audio = new Audio('mainmenu.mp3');
+            audio.play();
+        }
+    </script>
 </body>
 </html>

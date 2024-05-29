@@ -32,8 +32,12 @@
             position: relative;
         }
         .clickable img:hover, .clickable img:active {
-            opacity: 0.6; /* 激活時改變透明度，提供視覺反饋 */
+            opacity: 0.5; /* 點擊時改變透明度，提供視覺反饋 */
+        }
 
+        #buttons img {
+            cursor: pointer;
+            margin: 12px;
         }
     </style>
 </head>
@@ -41,19 +45,36 @@
     <br>
     <br>
     <br>
-    <img src="index01.png" alt="圖片1">
+    <img src="misson.png">
     <br>
+    <br> 
     <br>
-    <img src="index02.png" alt="圖片2">
+<div id="buttons">
+            <img src="back2.png" onclick="window.location.href='planet02.htm'">
+            <img src="alphabet01.png">
+            <img src="next2.png" onclick="window.location.href='planet02.htm'">
+        </div>
+    <br>
     <div class="clickable">
     <br>
-        <br>
-        <a href="mainmenu.htm" ontouchstart="handleTouch(event)">
-            <img src="index03.png" alt="圖片3" id="index3">
+        <a href="a_l.htm" ontouchstart="handleTouch(event)">
+            <img src="alphabet02.png">
         </a>
     </div>
+
     <br>
-    <br>
-    <img src="logo.png" alt="圖片1">
+
+    <div id="buttons">
+        <img src="back.png" onclick="history.back()">
+        <img src="re.png" onclick="location.reload()">
+        <img src="sound.png" onclick="playSound()">
+    </div>
+
+    <script>
+        function playSound() {
+            var audio = new Audio('planet01.mp3');
+            audio.play();
+        }
+    </script>
 </body>
 </html>
