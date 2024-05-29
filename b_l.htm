@@ -349,7 +349,7 @@
 
         function finalScore() {
             const blackPercentage = (coloredLetters / totalLetters) * 105;
-            const whitePercentage = (incorrectLetters / (80 * 80 - totalLetters)) * 80;
+            const whitePercentage = (incorrectLetters / (80 * 80 - totalLetters)) * 70;
             const scorePercentage = blackPercentage - whitePercentage;
             let roundedScore = Math.round(scorePercentage); // 計算最終得分並四捨五入
             roundedScore = Math.min(roundedScore, 100); // 限制分數最高為100
