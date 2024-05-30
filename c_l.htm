@@ -115,14 +115,14 @@
         <div id="progressbar"><div id="progress"></div></div>
         <div id="scoreAndDelete">
             &emsp;&emsp;&emsp; 
-            <img src="change.png" alt="切換大小寫" onclick="window.location.href='c_s.htm'">&thinsp;
+            <img src="change.png" alt="切換大小寫" onclick="location.reload()">&thinsp;
             <img src="delete.png" alt="Delete Records" onclick="clearScores()">&thinsp;
             <div id="scoreDisplay"></div>
         </div>
-        <img src="alphabet03.png" alt="Refresh" onclick="location.reload()">
+        <img src="alphabet03.png" alt="Refresh" onclick="window.location.href='c_s.htm'">
         <div id="popup">
             <div id="rating"></div>
-            <button onclick="closePopup()">再次挑戰</button>
+            <button onclick="location.reload()">再次挑戰</button>
             <button id="nextButton" style="display: none;" onclick="window.location='d_l.htm';">下個任務</button>
         </div>
             <div id="buttons">
