@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk Progress</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1D5D78;
+            height: 100vh;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #progressbar {
+            width: 150px;
+            height: 20px;
+            background-color: red;
+            margin-top: 10px;
+            border-width: 2px; 
+            border-style: solid;
+
+        }
+        #progress {
+            width: 150px;
+            height: 20px;
+            background-color: green;
+            margin-top: 0px;
+
+        }
+        #progressLabel {
+            margin-top: 10px;
+            font-size: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="progressbar">
+            <div id="progress"></div>
+        </div>
+        <div id="progressLabel">能量：0/1000</div>
+    </div>
+
+    <script>
+        const totalValue = 1000;
+
+        function updateProgress() {
+            let score = localStorage.getItem('scores_current_page');
+            if (score) {
+                score = parseInt(score, 10);
+            } else {
+                score = 0;
+            }
+
+            let accumulatedDeduction = localStorage.getItem('accumulated_deduction');
+            if (accumulatedDeduction) {
+                accumulatedDeduction = parseInt(accumulatedDeduction, 10);
+            } else {
+                accumulatedDeduction = 0;
+            }
+
+            // 更新累計扣除值並儲存到localStorage
+            accumulatedDeduction += score;
+            localStorage.setItem('accumulated_deduction', accumulatedDeduction);
+            localStorage.setItem('scores_current_page', 0); // 重置得分
+
+            const remaining = Math.max(totalValue - accumulatedDeduction, 0);
+            const progressPercentage = (remaining / totalValue) * 100;
+
+            document.getElementById('progress').style.width = progressPercentage + '%';
+            document.getElementById('progressLabel').textContent = `HP:${remaining}/1000`;
+        }
+
+        function resetProgress() {
+            localStorage.setItem('accumulated_deduction', 0);
+            updateProgress();
+        }
+
+        // 初始化時重置進度
+        resetProgress();
+
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'scores_current_page') {
+                updateProgress();
+            }
+        });
+    </script>
+</body>
+</html>

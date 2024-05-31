@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Planet</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1D5D78;
+            height: 100vh;
+        }
+        .clickable img:hover, .clickable img:active {
+            opacity: 0.5; /* 點擊時改變透明度，提供視覺反饋 */
+        }
+        #buttons img {
+            cursor: pointer;
+            margin: 12px;
+        }
+        #iframe-container {
+            width: 390px;
+            height: 390px;
+            margin-top: 0px;
+            border: 0px solid #fff; /* 可選的邊框樣式 */
+        }
+        #iframe-container2 {
+            width: 390px;
+            height: 80px;
+            margin-top: 0px;
+            border: 0px solid #fff; /* 可選的邊框樣式 */
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* 移除iframe的默認邊框 */
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <img id="pigImage" src="pig.png" alt="Pig Image">
+    <div id="iframe-container2">
+        <iframe src="boss01.htm"></iframe>
+    </div>
+
+    <div id="iframe-container">
+        <iframe src="m_b.htm"></iframe>
+    </div>
+        
+    <div id="buttons">
+        <img src="back.png" onclick="history.back()">
+        <img src="menu.png" onclick="window.location.href='menu.htm'">
+        <img src="sound.png" onclick="playSound()">
+    </div>
+
+    <script>
+        function playSound() {
+            var audio = new Audio('menu.mp3');
+            audio.play();
+        }
+
+        function updateProgress() {
+            let score = localStorage.getItem('scores_current_page');
+            if (score) {
+                score = parseInt(score, 10);
+            } else {
+                score = 0;
+            }
+
+            let accumulatedDeduction = localStorage.getItem('accumulated_deduction');
+            if (accumulatedDeduction) {
+                accumulatedDeduction = parseInt(accumulatedDeduction, 10);
+            } else {
+                accumulatedDeduction = 0;
+            }
+
+            // 更新累計扣除值並儲存到localStorage
+            accumulatedDeduction += score;
+            localStorage.setItem('accumulated_deduction', accumulatedDeduction);
+            localStorage.setItem('scores_current_page', 0); // 重置得分
+
+            // 切換圖片
+            const pigImage = document.getElementById('pigImage');
+            pigImage.src = 'pig02.png';
+            setTimeout(() => {
+                pigImage.src = 'pig.png';
+            }, 500);
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const pigImage = document.getElementById('pigImage');
+            pigImage.src = 'pig.png'; // 確保載入時顯示pig.png
+        });
+
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'scores_current_page') {
+                updateProgress();
+            }
+        });
+    </script>
+</body>
+</html>
