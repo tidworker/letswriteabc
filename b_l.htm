@@ -306,7 +306,7 @@
             const rect = grid.getBoundingClientRect();
             const x = Math.floor((clientX - rect.left) / 3);
             const y = Math.floor((clientY - rect.top) / 3);
-            fillCircle(x, y, 7);
+            fillCircle(x, y, 8);
         }
 
         function fillCircle(cx, cy, radius) {
@@ -348,8 +348,8 @@
         }
 
         function finalScore() {
-            const blackPercentage = (coloredLetters / totalLetters) * 105;
-            const whitePercentage = (incorrectLetters / (80 * 80 - totalLetters)) * 70;
+            const blackPercentage = (coloredLetters / totalLetters) * 110;
+            const whitePercentage = (incorrectLetters / (80 * 80 - totalLetters)) * 65;
             const scorePercentage = blackPercentage - whitePercentage;
             let roundedScore = Math.round(scorePercentage); // 計算最終得分並四捨五入
             roundedScore = Math.min(roundedScore, 100); // 限制分數最高為100
