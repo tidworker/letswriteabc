@@ -32,7 +32,7 @@
         #progress {
             width: 150px;
             height: 20px;
-            background-color: green;
+            background-color: red;
             margin-top: 0px;
         }
         #progressLabel {
@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-    <img id="pigImage" src="pig.gif" alt="Pig Image">
+    <img id="pigImage" src="pigend.gif" alt="Pig Image">
     <div id="container">
         <div id="progressbar">
             <div id="progress"></div>
@@ -56,7 +56,7 @@
     </div>
 
     <script>
-        const totalValue = 200;
+        const totalValue = 0;
         let isPigEnd = false;
 
         function updateProgress() {
@@ -90,7 +90,7 @@
             if (remaining > 0) {
                 pigImage.src = 'pig02.png';
                 setTimeout(() => {
-                    pigImage.src = 'pig.gif';
+                    pigImage.src = 'pigend.gif';
                 }, 500);
             } else {
                 if (!isPigEnd) {
@@ -111,7 +111,7 @@
 
         window.addEventListener('DOMContentLoaded', (event) => {
             const pigImage = document.getElementById('pigImage');
-            pigImage.src = 'pig.gif'; // 確保載入時顯示pig.gif
+            pigImage.src = 'pigend.gif'; // 確保載入時顯示pig.gif
         });
 
         window.addEventListener('storage', function(event) {
