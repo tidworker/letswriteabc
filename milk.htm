@@ -58,7 +58,7 @@
 <body>
     <br>
     <br>
-    <img src="index01.png">
+    <img id="main-image" src="index01.png">
     <br>
     <div id="iframe-container">
         <iframe src="1_b.htm"></iframe>
@@ -97,13 +97,21 @@
                 setTimeout(() => {
                     document.getElementById('iframe-container').querySelector('iframe').src = 'win.htm';
                     document.getElementById('iframe-container2').querySelector('iframe').src = 'end.htm';
-                    pageSwitched = true;
                 }, 1500); // 延遲1.5秒，與彈出框顯示時間重疊
+                // 更換主圖片為count.gif
+                document.getElementById('main-image').src = 'count.gif';
+                pageSwitched = true;
             } else if (event.data.type === 'update_score') {
                 if (event.data.content !== "0") {
                     showPopup(event.data.content);
                 }
+            } else if (event.data.type === 'change_image') {
+                document.getElementById('main-image').src = 'count.gif';
             }
+        });
+
+        document.getElementById('main-image').addEventListener('click', function() {
+            this.src = 'count.gif';
         });
     </script>
 </body>
