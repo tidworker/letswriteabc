@@ -46,26 +46,28 @@
     </style>
 </head>
 <body>
-    <img id="pigImage" src="pig.gif" alt="Pig Image">
+        <img id="pigImage" src="pig.gif" alt="Pig Image">
+
     <div id="container">
         <div id="progressbar">
             <div id="progress"></div>
         </div>
-        <div id="progressLabel">能量：0/9999</div>
+        <div id="progressLabel">能量：0/1000</div>
 
     </div>
 
     <script>
-        const totalValue = 9999;
+        const totalValue = 1000;
         let isPigEnd = false;
+
+        function playPigSound() {
+            var audio = new Audio('pig.mp3');
+            audio.play();
+        }
 
         function updateProgress() {
             let score = localStorage.getItem('scores_current_page');
-            if (score) {
-                score = parseInt(score, 10);
-            } else {
-                score = 0;
-            }
+            let originalScore = score ? parseInt(score, 10) : 0;
 
             let accumulatedDeduction = localStorage.getItem('accumulated_deduction');
             if (accumulatedDeduction) {
@@ -75,7 +77,7 @@
             }
 
             // 更新累計扣除值並儲存到localStorage
-            accumulatedDeduction += score;
+            accumulatedDeduction += originalScore;
             localStorage.setItem('accumulated_deduction', accumulatedDeduction);
             localStorage.setItem('scores_current_page', 0); // 重置得分
 
@@ -83,19 +85,25 @@
             const progressPercentage = (remaining / totalValue) * 100;
 
             document.getElementById('progress').style.width = progressPercentage + '%';
-            document.getElementById('progressLabel').textContent = `HP:${remaining}/9999`;
+            document.getElementById('progressLabel').textContent = `HP:${remaining}/1000`;
+
+            // 向父頁面發送更新訊息
+            if (originalScore > 0) {
+                window.parent.postMessage({ type: 'update_score', content: `-${originalScore}` }, '*');
+            }
 
             // 切換圖片
             const pigImage = document.getElementById('pigImage');
             if (remaining > 0) {
                 pigImage.src = 'pig02.png';
+                playPigSound(); // 撥放pig.mp3
                 setTimeout(() => {
                     pigImage.src = 'pig.gif';
-                }, 500);
+                }, 1000);
             } else {
                 if (!isPigEnd) {
-                    pigImage.src = 'pig02.png';
-                    window.parent.postMessage('progress_zero', '*');
+                    pigImage.src = 'pigend.gif';
+                    window.parent.postMessage({ type: 'progress_zero', content: `${originalScore}` }, '*');
                     isPigEnd = true;
                 }
             }

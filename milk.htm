@@ -25,7 +25,7 @@
         }
         #iframe-container {
             width: 390px;
-            height: 250px;
+            height: 252px;
             margin-top: 0px;
             border: 0px solid #fff; /* 可選的邊框樣式 */
         }
@@ -39,6 +39,19 @@
             width: 100%;
             height: 100%;
             border: none; /* 移除iframe的默認邊框 */
+        }
+        #popup {
+            position: fixed;
+            top: 62.5%;
+            left: 50%;
+            font-size: 18px;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0); /* 背景透明 */
+            color: black; /* 文字颜色 */
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -60,6 +73,8 @@
         <img src="sound.png" onclick="playSound()">
     </div>
 
+    <div id="popup"><span id="popup-content"></span></div>
+
     <script>
         function playSound() {
             var audio = new Audio('menu.mp3');
@@ -68,13 +83,26 @@
 
         let pageSwitched = false;
 
+        function showPopup(content) {
+            const popup = document.getElementById('popup');
+            document.getElementById('popup-content').innerText = content;
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 1000);
+        }
+
         window.addEventListener('message', function(event) {
-            if (event.data === 'progress_zero' && !pageSwitched) {
+            if (event.data.type === 'progress_zero' && !pageSwitched) {
                 setTimeout(() => {
                     document.getElementById('iframe-container').querySelector('iframe').src = 'win.htm';
                     document.getElementById('iframe-container2').querySelector('iframe').src = 'end.htm';
                     pageSwitched = true;
-                }, 1000); // 延遲1秒
+                }, 1500); // 延遲1.5秒，與彈出框顯示時間重疊
+            } else if (event.data.type === 'update_score') {
+                if (event.data.content !== "0") {
+                    showPopup(event.data.content);
+                }
             }
         });
     </script>
