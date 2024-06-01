@@ -51,12 +51,12 @@
         <div id="progressbar">
             <div id="progress"></div>
         </div>
-        <div id="progressLabel">能量：0/200</div>
+        <div id="progressLabel">能量：0/9999</div>
 
     </div>
 
     <script>
-        const totalValue = 200;
+        const totalValue = 9999;
         let isPigEnd = false;
 
         function updateProgress() {
@@ -83,7 +83,7 @@
             const progressPercentage = (remaining / totalValue) * 100;
 
             document.getElementById('progress').style.width = progressPercentage + '%';
-            document.getElementById('progressLabel').textContent = `HP:${remaining}/200`;
+            document.getElementById('progressLabel').textContent = `HP:${remaining}/9999`;
 
             // 切換圖片
             const pigImage = document.getElementById('pigImage');
