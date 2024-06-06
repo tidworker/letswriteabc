@@ -64,7 +64,7 @@
         <div id="progressbar">
             <div id="progress" style="width: 100%;"></div>
         </div>
-        <div id="progressLabel">HP：10000/10000</div>
+        <div id="progressLabel">能量：10000/10000</div>
     </div>
     <div id="popup"><span id="popup-content"></span></div>
 
@@ -78,13 +78,15 @@
         }
 
         function updateProgress(amount) {
-            let currentProgress = parseInt(document.getElementById('progress').style.width) * 100 || 10000;
+            let currentProgress = Math.round(parseInt(document.getElementById('progress').style.width) * totalValue / 100) || totalValue;
             let newProgress = Math.max(currentProgress - amount, 0);
 
-            document.getElementById('progress').style.width = (newProgress / totalValue) * 100 + '%';
-            document.getElementById('progressLabel').textContent = `HP：${newProgress}/10000`;
+            newProgress = Math.round(newProgress); // 确保能量值为整数
 
-            showPopup(`HP-${amount}`);
+            document.getElementById('progress').style.width = (newProgress / totalValue) * 100 + '%';
+            document.getElementById('progressLabel').textContent = `能量：${newProgress}/${totalValue}`;
+
+            showPopup(`扣除能量：${amount}`);
 
             // 切換圖片
             const pigImage = document.getElementById('pigImage');

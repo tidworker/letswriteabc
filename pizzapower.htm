@@ -20,16 +20,16 @@
             align-items: center;
         }
         #pizzaImage {
-            width: 301px;
-            height: 301px;
+            width: 300px;
+            height: 300px;
             cursor: pointer;
         }
         #hint {
             position: fixed;
             top: 50%;
             left: 50%;
-            width: 236px;
-            height: 118px;
+            width: 300px;
+            height: 300px;
             transform: translate(-50%, -50%);
             cursor: pointer;
             display: none;
@@ -38,15 +38,15 @@
 </head>
 <body>
     <div id="container">
-        <img src="round1.png" id="pizzaImage">
+        <img src="back3.png" id="pizzaImage">
     </div>
-    <img src="hint.png" id="hint" alt="Hint">
+    <img src="pizzapower.gif" id="hint" alt="Hint">
 
     <script>
-        // 2500毫秒後顯示提示圖片
+        // 1500毫秒後顯示提示圖片
         setTimeout(() => {
             document.getElementById('hint').style.display = 'block';
-        }, 100);
+        }, 1000);
 
         // 點擊提示圖片後關閉並跳轉
         document.getElementById('hint').addEventListener('click', function() {
@@ -55,6 +55,11 @@
                 window.location.href = '16_b.htm';
             }, 2000); // 2秒後跳轉
         });
+
+        // 5秒後自動跳轉至 pizza.htm
+        setTimeout(() => {
+            window.location.href = 'pizza.htm';
+        }, 7500);
     </script>
 </body>
 </html>
