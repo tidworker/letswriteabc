@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Page</title>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center;  
+            height: 100%; 
+            background-color: #1D5D78;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #pizzaImage {
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="pizzaImage" src="pizza.png" alt="Pizza Image">
+    </div>
+
+    <script>
+        const pizzaImage = document.getElementById('pizzaImage');
+        let imageToggle = false;
+
+        pizzaImage.addEventListener('click', function() {
+            pizzaImage.src = imageToggle ? "pizza.png" : "pizza2.png";
+            imageToggle = !imageToggle;
+            changeMainImage();
+            deductScore(50);
+            setTimeout(() => {
+                window.location.href = '1_b.htm';
+            }, 3000);
+        });
+
+        function changeMainImage() {
+            window.parent.postMessage({ type: 'change_image' }, '*');
+        }
+
+        function deductScore(amount) {
+            window.parent.postMessage({ type: 'deduct_score', amount: amount }, '*');
+        }
+    </script>
+</body>
+</html>

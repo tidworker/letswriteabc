@@ -30,7 +30,7 @@
             border-style: solid;
         }
         #progress {
-            width: 150px;
+            width: 100%;
             height: 20px;
             background-color: green;
             margin-top: 0px;
@@ -46,55 +46,33 @@
     </style>
 </head>
 <body>
-        <img id="pigImage" src="pig.gif" alt="Pig Image">
-
+    <img id="pigImage" src="pig.gif" alt="Pig Image">
     <div id="container">
         <div id="progressbar">
-            <div id="progress"></div>
+            <div id="progress" style="width: 100%;"></div>
         </div>
-        <div id="progressLabel">能量：0/1000</div>
-
+        <div id="progressLabel">能量：10000/10000</div>
     </div>
 
     <script>
-        const totalValue = 1000;
+        const totalValue = 10000;
         let isPigEnd = false;
 
         function playPigSound() {
-            var audio = new Audio('pig.mp3');
+            var audio = new Audio('');
             audio.play();
         }
 
-        function updateProgress() {
-            let score = localStorage.getItem('scores_current_page');
-            let originalScore = score ? parseInt(score, 10) : 0;
+        function updateProgress(amount) {
+            let currentProgress = parseInt(document.getElementById('progress').style.width) || 100;
+            let newProgress = Math.max(currentProgress - (amount * 100 / totalValue), 0);
 
-            let accumulatedDeduction = localStorage.getItem('accumulated_deduction');
-            if (accumulatedDeduction) {
-                accumulatedDeduction = parseInt(accumulatedDeduction, 10);
-            } else {
-                accumulatedDeduction = 0;
-            }
-
-            // 更新累計扣除值並儲存到localStorage
-            accumulatedDeduction += originalScore;
-            localStorage.setItem('accumulated_deduction', accumulatedDeduction);
-            localStorage.setItem('scores_current_page', 0); // 重置得分
-
-            const remaining = Math.max(totalValue - accumulatedDeduction, 0);
-            const progressPercentage = (remaining / totalValue) * 100;
-
-            document.getElementById('progress').style.width = progressPercentage + '%';
-            document.getElementById('progressLabel').textContent = `HP:${remaining}/1000`;
-
-            // 向父頁面發送更新訊息
-            if (originalScore > 0) {
-                window.parent.postMessage({ type: 'update_score', content: `-${originalScore}` }, '*');
-            }
+            document.getElementById('progress').style.width = newProgress + '%';
+            document.getElementById('progressLabel').textContent = `能量：${newProgress * totalValue / 100}/10000`;
 
             // 切換圖片
             const pigImage = document.getElementById('pigImage');
-            if (remaining > 0) {
+            if (newProgress > 0) {
                 pigImage.src = 'pig02.png';
                 playPigSound(); // 撥放pig.mp3
                 setTimeout(() => {
@@ -103,29 +81,21 @@
             } else {
                 if (!isPigEnd) {
                     pigImage.src = 'pigend.gif';
-                    window.parent.postMessage({ type: 'progress_zero', content: `${originalScore}` }, '*');
+                    window.parent.postMessage({ type: 'progress_zero' }, '*'); // 通知主页面切换到win.htm和end.htm
                     isPigEnd = true;
                 }
             }
         }
 
-        function resetProgress() {
-            localStorage.setItem('accumulated_deduction', 0);
-            updateProgress();
-        }
-
-        // 初始化時重置進度
-        resetProgress();
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'deduct_score') {
+                updateProgress(event.data.amount);
+            }
+        });
 
         window.addEventListener('DOMContentLoaded', (event) => {
             const pigImage = document.getElementById('pigImage');
             pigImage.src = 'pig.gif'; // 確保載入時顯示pig.gif
-        });
-
-        window.addEventListener('storage', function(event) {
-            if (event.key === 'scores_current_page') {
-                updateProgress();
-            }
         });
     </script>
 </body>
