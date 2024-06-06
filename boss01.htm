@@ -26,7 +26,7 @@
             height: 20px;
             background-color: red;
             margin-top: 10px;
-            border-width: 2px; 
+            border-width: 2px;
             border-style: solid;
         }
         #progress {
@@ -43,6 +43,19 @@
         #pigImage {
             margin-top: 20px;
         }
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            font-size: 20px;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -51,40 +64,52 @@
         <div id="progressbar">
             <div id="progress" style="width: 100%;"></div>
         </div>
-        <div id="progressLabel">能量：10000/10000</div>
+        <div id="progressLabel">HP：10000/10000</div>
     </div>
+    <div id="popup"><span id="popup-content"></span></div>
 
     <script>
         const totalValue = 10000;
         let isPigEnd = false;
 
         function playPigSound() {
-            var audio = new Audio('');
+            var audio = new Audio('pig.mp3');
             audio.play();
         }
 
         function updateProgress(amount) {
-            let currentProgress = parseInt(document.getElementById('progress').style.width) || 100;
-            let newProgress = Math.max(currentProgress - (amount * 100 / totalValue), 0);
+            let currentProgress = parseInt(document.getElementById('progress').style.width) * 100 || 10000;
+            let newProgress = Math.max(currentProgress - amount, 0);
 
-            document.getElementById('progress').style.width = newProgress + '%';
-            document.getElementById('progressLabel').textContent = `能量：${newProgress * totalValue / 100}/10000`;
+            document.getElementById('progress').style.width = (newProgress / totalValue) * 100 + '%';
+            document.getElementById('progressLabel').textContent = `HP：${newProgress}/10000`;
+
+            showPopup(`HP-${amount}`);
 
             // 切換圖片
             const pigImage = document.getElementById('pigImage');
             if (newProgress > 0) {
                 pigImage.src = 'pig02.png';
-                playPigSound(); // 撥放pig.mp3
+                playPigSound(); // 播放pig.mp3
                 setTimeout(() => {
                     pigImage.src = 'pig.gif';
                 }, 1000);
             } else {
                 if (!isPigEnd) {
                     pigImage.src = 'pigend.gif';
-                    window.parent.postMessage({ type: 'progress_zero' }, '*'); // 通知主页面切换到win.htm和end.htm
+                    window.parent.postMessage({ type: 'progress_zero' }, '*');
                     isPigEnd = true;
                 }
             }
+        }
+
+        function showPopup(content) {
+            const popup = document.getElementById('popup');
+            document.getElementById('popup-content').innerText = content;
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 2000); // 2秒後隱藏彈出框
         }
 
         window.addEventListener('message', function(event) {

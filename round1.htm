@@ -24,18 +24,37 @@
             height: 300px;
             cursor: pointer;
         }
+        #hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 236px;
+            height: 118px;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div id="container">
         <img src="round1.png" id="pizzaImage">
     </div>
+    <img src="hint.png" id="hint" alt="Hint">
 
     <script>
-        // 3秒後自動切換到16_b.htm
+        // 2500毫秒後顯示提示圖片
         setTimeout(() => {
-            window.location.href = '16_b.htm';
-        }, 2500);
+            document.getElementById('hint').style.display = 'block';
+        }, 1500);
+
+        // 點擊提示圖片後關閉並跳轉
+        document.getElementById('hint').addEventListener('click', function() {
+            this.style.display = 'none';
+            setTimeout(() => {
+                window.location.href = '16_b.htm';
+            }, 2000); // 2秒後跳轉
+        });
     </script>
 </body>
 </html>
