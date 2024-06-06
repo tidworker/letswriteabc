@@ -46,14 +46,14 @@
         // 1500毫秒後顯示提示圖片
         setTimeout(() => {
             document.getElementById('hint').style.display = 'block';
-        }, 1000);
+        }, 500);
 
         // 點擊提示圖片後關閉並跳轉
         document.getElementById('hint').addEventListener('click', function() {
             this.style.display = 'none';
             setTimeout(() => {
                 window.location.href = '16_b.htm';
-            }, 2000); // 2秒後跳轉
+            }, 7000); // 2秒後跳轉
         });
 
         // 5秒後自動跳轉至 pizza.htm
