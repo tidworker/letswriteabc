@@ -26,8 +26,8 @@
         }
         #hint {
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 53%;
+            left: 51%;
             width: 236px;
             height: 118px;
             transform: translate(-50%, -50%);
@@ -43,17 +43,18 @@
     <img src="hint.png" id="hint" alt="Hint">
 
     <script>
-        // 2500毫秒後顯示提示圖片
+        // 100毫秒後顯示提示圖片
         setTimeout(() => {
             document.getElementById('hint').style.display = 'block';
         }, 100);
 
-        // 點擊提示圖片後關閉並跳轉
+        // 點擊提示圖片後關閉並跳轉到隨機的 1_foods.htm 到 10_foods.htm
         document.getElementById('hint').addEventListener('click', function() {
             this.style.display = 'none';
             setTimeout(() => {
-                window.location.href = '16_b.htm';
-            }, 2000); // 2秒後跳轉
+                const randomNum = Math.floor(Math.random() * 2) + 1;
+                window.location.href = `${randomNum}_foods.htm`;
+            }, 2500); // 2秒後跳轉
         });
     </script>
 </body>
