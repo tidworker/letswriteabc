@@ -86,7 +86,7 @@
             let currentProgress = Math.round(parseInt(document.getElementById('progress').style.width) * totalValue / 100) || totalValue;
             let newProgress = Math.max(currentProgress - amount, 0);
 
-            newProgress = Math.round(newProgress); // 确保能量值为整数
+            newProgress = Math.round(newProgress); // 確保能量值為整數
 
             document.getElementById('progress').style.width = (newProgress / totalValue) * 100 + '%';
             document.getElementById('progressLabel').textContent = `能量：${newProgress}/${totalValue}`;
