@@ -28,7 +28,7 @@
 </head>
 <body>
     <div id="container">
-        <img id="pizzaImage" src="pizza.png" alt="Pizza Image">
+        <img id="pizzaImage" src="candy.png" alt="Pizza Image">
 
     </div>
 
@@ -37,12 +37,12 @@
         let imageToggle = false;
 
         pizzaImage.addEventListener('click', function() {
-            pizzaImage.src = imageToggle ? "pizza.png" : "pizza2.png";
+            pizzaImage.src = imageToggle ? "candy.png" : "candy2.png";
             imageToggle = !imageToggle;
             changeMainImage();
             deductScore(50);
             setTimeout(() => {
-                window.location.href = 'pizza2.htm';
+                window.location.href = 'candy2.htm';
             }, 3000);
         });
 

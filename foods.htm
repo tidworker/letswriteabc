@@ -31,7 +31,7 @@
         }
         #iframe-container2 {
             width: 390px;
-            height: 220px;
+            height: 200px;
             margin-top: 0px;
             border: 0px solid #fff; /* 可選的邊框樣式 */
         }
@@ -58,16 +58,17 @@
 </head>
 <body>
     <br>
-    <br>
-    <img id="main-image" src="foods.png">
-    <br>
-    <div id="iframe-container">
-        <iframe id="main-iframe" src="round1.htm"></iframe>
-    </div>
     <div id="iframe-container2">
         <iframe id="secondary-iframe" src="boss01.htm"></iframe>
     </div>
-        
+
+    <div id="iframe-container">
+        <iframe id="main-iframe" src="round1.htm"></iframe>
+    </div>
+    <br>  
+    <img id="main-image" src="foods.png">
+    <br>
+    <br>      
     <div id="buttons">
         <img src="back.png" onclick="history.back()">
         <img src="menu.png" onclick="window.location.href='menu.htm'">
@@ -107,11 +108,6 @@
             } else if (event.data.type === 'update_score') {
                 if (event.data.content !== "0") {
                     showPopup(event.data.content);
-                }
-            } else if (event.data.type === 'change_image') {
-                if (!imageChanged) {
-                    document.getElementById('main-image').src = 'count.gif';
-                    imageChanged = true;
                 }
             } else if (event.data.type === 'deduct_score') {
                 // 发送消息到 boss01.htm 更新进度条
