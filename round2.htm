@@ -34,8 +34,9 @@
     <script>
         // 3秒後自動切換到16_b.htm
         setTimeout(() => {
-            window.location.href = '16_b.htm';
-        }, 2500);
+        const randomNum = Math.floor(Math.random() * 1) + 1;
+        window.location.href = `${randomNum}_foods.htm`;
+        }, 3000); // 2秒後跳轉
     </script>
 </body>
 </html>
