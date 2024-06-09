@@ -69,12 +69,12 @@
         <div id="progressbar">
             <div id="progress" style="width: 100%;"></div>
         </div>
-        <div id="progressLabel">能量：1000/1000</div>
+        <div id="progressLabel">能量：10000/10000</div>
     </div>
     <div id="popup"><span id="popup-content"></span></div>
 
     <script>
-        const totalValue = 1000;
+        const totalValue = 10000;
         let isPigEnd = false;
 
         function playPigSound() {
@@ -91,11 +91,11 @@
                 if (!isPigEnd) {
                     document.getElementById('progress').style.width = '0%';
                     document.getElementById('progressLabel').textContent = `能量：0/${totalValue}`;
-                    pigImage.src = 'pigend.gif';
+                    document.getElementById('pigImage').src = 'pigend.gif';
                     window.parent.postMessage({ type: 'progress_zero' }, '*');
                     isPigEnd = true;
-                    return;
                 }
+                return;
             } else {
                 newProgress = Math.round(newProgress); // 確保能量值為整數
                 document.getElementById('progress').style.width = (newProgress / totalValue) * 100 + '%';
