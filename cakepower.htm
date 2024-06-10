@@ -19,17 +19,17 @@
             flex-direction: column;
             align-items: center;
         }
-        #pizzaImage {
-            width: 301px;
-            height: 301px;
+        #cakeImage {
+            width: 300px;
+            height: 300px;
             cursor: pointer;
         }
         #hint {
             position: fixed;
             top: 50%;
             left: 50%;
-            width: 236px;
-            height: 118px;
+            width: 300px;
+            height: 300px;
             transform: translate(-50%, -50%);
             cursor: pointer;
             display: none;
@@ -38,24 +38,28 @@
 </head>
 <body>
     <div id="container">
-        <img src="round1.png" id="pizzaImage">
+        <img src="back3.png" id="cakeImage">
     </div>
-    <img src="hint.png" id="hint" alt="Hint">
+    <img src="cakepower.gif" id="hint" alt="Hint">
 
     <script>
-        // 100毫秒後顯示提示圖片
+        // 1500毫秒後顯示提示圖片
         setTimeout(() => {
             document.getElementById('hint').style.display = 'block';
-        }, 100);
+        }, 500);
 
-        // 點擊提示圖片後關閉並跳轉到隨機的 1_foods.htm 到 10_foods.htm
+        // 點擊提示圖片後關閉並跳轉
         document.getElementById('hint').addEventListener('click', function() {
             this.style.display = 'none';
             setTimeout(() => {
-                const randomNum = Math.floor(Math.random() * 3) + 1;
-                window.location.href = `${randomNum}_foods.htm`;
-            }, 2000); // 2秒後跳轉
+                window.location.href = 'cake.htm';
+            }, 500); // 2秒後跳轉
         });
+
+        // 5秒後自動跳轉至 cake.htm
+        setTimeout(() => {
+            window.location.href = 'cake.htm';
+        }, 6000);
     </script>
 </body>
 </html>

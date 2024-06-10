@@ -20,14 +20,14 @@
             align-items: center;
         }
         #pizzaImage {
-            width: 301px;
-            height: 301px;
+            width: 300px;
+            height: 300px;
             cursor: pointer;
         }
         #hint {
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 53%;
+            left: 51%;
             width: 236px;
             height: 118px;
             transform: translate(-50%, -50%);
@@ -38,15 +38,15 @@
 </head>
 <body>
     <div id="container">
-        <img src="round1.png" id="pizzaImage">
+        <img src="cake3.png" id="pizzaImage">
     </div>
-    <img src="hint.png" id="hint" alt="Hint">
+    <img src="hint2.png" id="hint" alt="Hint">
 
     <script>
         // 100毫秒後顯示提示圖片
         setTimeout(() => {
             document.getElementById('hint').style.display = 'block';
-        }, 100);
+        }, 2000);
 
         // 點擊提示圖片後關閉並跳轉到隨機的 1_foods.htm 到 10_foods.htm
         document.getElementById('hint').addEventListener('click', function() {
@@ -54,7 +54,7 @@
             setTimeout(() => {
                 const randomNum = Math.floor(Math.random() * 3) + 1;
                 window.location.href = `${randomNum}_foods.htm`;
-            }, 2000); // 2秒後跳轉
+            }, 1500); // 2秒後跳轉
         });
     </script>
 </body>

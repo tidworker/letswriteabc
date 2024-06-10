@@ -52,7 +52,7 @@
         document.getElementById('hint').addEventListener('click', function() {
             this.style.display = 'none';
             setTimeout(() => {
-                const randomNum = Math.floor(Math.random() * 2) + 1;
+                const randomNum = Math.floor(Math.random() * 3) + 1;
                 window.location.href = `${randomNum}_foods.htm`;
             }, 1500); // 2秒後跳轉
         });

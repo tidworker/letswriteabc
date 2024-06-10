@@ -40,7 +40,7 @@
     <div id="container">
         <img src="back3.png" id="pizzaImage">
     </div>
-    <img src="candypower.gif" id="hint" alt="Hint">
+    <img src="cakepower.gif" id="hint" alt="Hint">
 
     <script>
         // 1500毫秒後顯示提示圖片
@@ -52,13 +52,13 @@
         document.getElementById('hint').addEventListener('click', function() {
             this.style.display = 'none';
             setTimeout(() => {
-                window.location.href = 'candy.htm';
+                window.location.href = 'cake.htm';
             }, 500); // 2秒後跳轉
         });
 
-        // 5秒後自動跳轉至 pizza.htm
+        // 5秒後自動跳轉至 cake.htm
         setTimeout(() => {
-            window.location.href = 'candy.htm';
+            window.location.href = 'cake.htm';
         }, 6000);
     </script>
 </body>
