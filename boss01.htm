@@ -76,6 +76,7 @@
     <script>
         const totalValue = 10000;
         let isPigEnd = false;
+        let energy = totalValue;
 
         function playPigSound() {
             var audio = new Audio('pig.mp3');
@@ -83,11 +84,11 @@
         }
 
         function updateProgress(amount) {
-            let currentProgress = Math.round(parseInt(document.getElementById('progress').style.width) * totalValue / 100) || totalValue;
-            let newProgress = Math.max(currentProgress - amount, 0);
+            if (isPigEnd) return;
 
-            if (newProgress <= 0) {
-                newProgress = 0;
+            energy = Math.max(energy - amount, 0);
+
+            if (energy === 0) {
                 if (!isPigEnd) {
                     document.getElementById('progress').style.width = '0%';
                     document.getElementById('progressLabel').textContent = `能量：0/${totalValue}`;
@@ -96,23 +97,18 @@
                     isPigEnd = true;
                 }
                 return;
-            } else {
-                newProgress = Math.round(newProgress); // 確保能量值為整數
-                document.getElementById('progress').style.width = (newProgress / totalValue) * 100 + '%';
-                document.getElementById('progressLabel').textContent = `能量：${newProgress}/${totalValue}`;
             }
 
+            document.getElementById('progress').style.width = (energy / totalValue) * 100 + '%';
+            document.getElementById('progressLabel').textContent = `能量：${energy}/${totalValue}`;
             showPopup(`扣除能量：${amount}`);
 
-            // 切換圖片
             const pigImage = document.getElementById('pigImage');
-            if (newProgress > 0) {
-                pigImage.src = 'pig02.png';
-                playPigSound(); // 播放pig.mp3
-                setTimeout(() => {
-                    pigImage.src = 'pig.gif';
-                }, 1000);
-            }
+            pigImage.src = 'pig02.png';
+            playPigSound();
+            setTimeout(() => {
+                pigImage.src = 'pig.gif';
+            }, 1000);
         }
 
         function showPopup(content) {
@@ -121,7 +117,7 @@
             popup.style.display = 'block';
             setTimeout(() => {
                 popup.style.display = 'none';
-            }, 2000); // 2秒後隱藏彈出框
+            }, 2000);
         }
 
         window.addEventListener('message', function(event) {
@@ -132,7 +128,7 @@
 
         window.addEventListener('DOMContentLoaded', (event) => {
             const pigImage = document.getElementById('pigImage');
-            pigImage.src = 'pig.gif'; // 確保載入時顯示pig.gif
+            pigImage.src = 'pig.gif';
         });
     </script>
 </body>
