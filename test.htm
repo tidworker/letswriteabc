@@ -5,17 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>默禪</title>
     <style>
-        @font-face {
-          font-family: Bakudai-Regular;
-          src: url(https://cdn.jsdelivr.net/gh/max32002/bakudaifont@1.48/webfont/Bakudai-Regular.woff2) format("woff2");
-        }
-
+        
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             background-color: #F2F2F2;
-            font-family: Bakudai-Regular, sans-serif; /* 使用自定義字體 */
         }
         #iframe-container {
             width: 390px;
@@ -115,7 +110,7 @@
         // Fetch text content from the 0001.txt file
         async function fetchTextContent() {
             try {
-                const response = await fetch('0001/0001.txt');
+                const response = await fetch('0001.txt');
                 textContent = await response.text();
                 initializePages();
             } catch (error) {
@@ -136,7 +131,7 @@
         function loadPage() {
             const currentChar = textContent.replace(/\n/g, '')[currentPageIndex];
             if (currentChar !== '　') {
-                document.getElementById('pageFrame').src = `0001/${currentChar}.htm`;
+                document.getElementById('pageFrame').src = `${currentChar}.htm`;
             }
         }
 
