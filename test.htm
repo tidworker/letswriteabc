@@ -113,7 +113,22 @@
         <div id="closeButton" onclick="closeFullText()">X</div>
         <div id="fullTextContent"></div>
     </div>
-    
+        <br>
+    <div id="iframe-container2">
+        <iframe id="secondary-iframe" src="boss01.htm"></iframe>
+    </div>
+    <br>  
+    <img id="main-image" src="foods.png">
+    <br>
+    <br>      
+    <div id="buttons">
+        <img src="back.png" onclick="history.back()">
+        <img src="menu.png" onclick="window.location.href='menu.htm'">
+        <img src="sound.png" onclick="playSound()">
+    </div>
+
+    <div id="popup"><span id="popup-content"></span></div>
+
     <script>
         let pages = [];
         let currentPageIndex = 0;
